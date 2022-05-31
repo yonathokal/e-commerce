@@ -1,27 +1,28 @@
-import React,{useState} from 'react'
+import React, { useState } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import "antd/dist/antd.css";
 
-
-
-
-
-
 const Login = (props) => {
-   const [name, setName] = useState("")
-   const [pass, setPass] = useState(""); 
-
-    const onFinish = (values) => {
+  const [name, setName] = useState("");
+  const [pass, setPass] = useState("");
+  const [unAuth, setUnAuth] = useState(false);
+  const msg = "Kindly re-enter the correct credentials";
+  const onFinish = (values) => {
+    if (values.username == "admin" && values.password == "123") {
+      setUnAuth(false);
       props.isLogin(true);
-    };
+    } else {
+      setUnAuth(true);
+    }
+  };
 
-    const onFinishFailed = (errorInfo) => {
-      console.log("Failed:", errorInfo);
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
 
-    };
-
-
-    return (
+  return (
+    <>
+      {unAuth && <p style={{ color: "red" }}>{msg}</p>}
       <Form
         name="basic"
         labelCol={{
@@ -54,7 +55,7 @@ const Login = (props) => {
             },
           ]}
         >
-          <Input onChange={e => setName(e.target.value)} />
+          <Input onChange={(e) => setName(e.target.value)} />
         </Form.Item>
         <Form.Item
           label="Password"
@@ -66,8 +67,8 @@ const Login = (props) => {
             },
           ]}
         >
-          <Input.Password onChange={e=>setPass(e.target.value)}/>
-        </Form.Item >
+          <Input.Password onChange={(e) => setPass(e.target.value)} />
+        </Form.Item>
 
         <Form.Item
           name="remember"
@@ -91,7 +92,8 @@ const Login = (props) => {
           </Button>
         </Form.Item>
       </Form>
-    );
-}
+    </>
+  );
+};
 
-export default Login
+export default Login;
